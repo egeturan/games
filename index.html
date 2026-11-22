@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ege Turan · Games</title>
+<meta name="description" content="Lightweight HTML5 games and playable ads that load instantly on any phone.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='40' cy='24' r='10' fill='%236fe6ff'/%3E%3Cpath d='M8 56 L34 30' stroke='%232f7bff' stroke-width='8' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+  /* ======= EDIT THESE BEFORE PUBLISHING ======= */
+  /* Name and contact live in the CONFIG script at the bottom of this file. */
+  :root {
+    --bg: #070b1a; --bg2: #0d1430; --card: #111a3d; --line: #24316a;
+    --text: #eef2ff; --muted: #a9b4dd; --accent: #6fe6ff; --accent2: #2f7bff; --gold: #ffd54a; --green: #3ccf7a;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; overflow-x: hidden; }
+  body::before { content: ""; position: fixed; inset: 0; z-index: -1; background:
+      radial-gradient(1200px 600px at 80% -10%, #1b2a7a55, transparent 60%),
+      radial-gradient(900px 500px at -10% 30%, #5a1fa833, transparent 60%), var(--bg); }
+  a { color: var(--accent); }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; }
+  .brand { font-weight: 800; letter-spacing: .5px; color: var(--text); text-decoration: none; }
+  nav .links a { color: var(--muted); text-decoration: none; margin-left: 18px; font-size: 15px; }
+  nav .links a:hover { color: var(--text); }
+  .hero { padding: 64px 0 40px; display: grid; gap: 32px; grid-template-columns: 1.2fr 1fr; align-items: center; }
+  h1 { font-size: clamp(32px, 5vw, 54px); line-height: 1.1; margin: 0 0 16px; }
+  h1 em { font-style: normal; background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .lead { color: var(--muted); font-size: 18px; margin: 0 0 28px; max-width: 34em; }
+  .btn { display: inline-block; padding: 13px 22px; border-radius: 12px; font-weight: 700; text-decoration: none; margin: 0 10px 10px 0; border: 2px solid transparent; }
+  .btn.primary { background: var(--green); color: #04140a; }
+  .btn.ghost { border-color: var(--line); color: var(--text); }
+  .btn:hover { filter: brightness(1.1); }
+  .hero img { width: 100%; height: auto; border-radius: 18px; border: 1px solid var(--line); box-shadow: 0 20px 60px #0008; }
+  section { padding: 56px 0; }
+  h2 { font-size: clamp(26px, 3.4vw, 36px); margin: 0 0 8px; }
+  .sub { color: var(--muted); margin: 0 0 32px; }
+  .grid3 { display: grid; gap: 18px; grid-template-columns: repeat(3, 1fr); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 22px; }
+  .card h3 { margin: 4px 0 8px; font-size: 19px; }
+  .card p { margin: 0; color: var(--muted); font-size: 15px; }
+  .icon { font-size: 26px; }
+  .work { display: grid; gap: 28px; grid-template-columns: 1fr 1fr; align-items: center; }
+  .work img { width: 100%; height: auto; border-radius: 16px; border: 1px solid var(--line); }
+  .facts { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 22px; padding: 0; list-style: none; }
+  .facts li { background: var(--bg2); border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; font-size: 14px; color: var(--muted); }
+  .facts b { color: var(--text); }
+  .playable { display: grid; gap: 40px; grid-template-columns: auto 1fr; align-items: center; }
+  .phone { width: 300px; height: 620px; border-radius: 42px; padding: 14px; background: #02040c; border: 2px solid #2a3570; box-shadow: 0 30px 80px #000a, inset 0 0 0 2px #0e1430; position: relative; }
+  .phone iframe { width: 100%; height: 100%; border: 0; border-radius: 30px; background: var(--bg); display: block; }
+  .phone .start { position: absolute; inset: 14px; border-radius: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; background: #070b1ae6 center/cover; color: var(--text); font-weight: 700; cursor: pointer; border: 0; font-size: 18px; }
+  .phone .start span { background: var(--green); color: #04140a; padding: 12px 22px; border-radius: 12px; }
+  .specs { list-style: none; padding: 0; margin: 0 0 22px; display: grid; gap: 10px; }
+  .specs li { padding-left: 28px; position: relative; color: var(--muted); }
+  .specs li::before { content: "✓"; position: absolute; left: 0; color: var(--green); font-weight: 800; }
+  .specs b { color: var(--text); }
+  .steps { counter-reset: s; display: grid; gap: 18px; grid-template-columns: repeat(4, 1fr); }
+  .steps .card::before { counter-increment: s; content: counter(s); display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--accent2); font-weight: 800; margin-bottom: 8px; }
+  .contact { text-align: center; background: linear-gradient(135deg, #12205a, #1a0f45); border: 1px solid var(--line); border-radius: 22px; padding: 48px 20px; }
+  footer { color: var(--muted); font-size: 14px; text-align: center; padding: 32px 0 48px; }
+  @media (max-width: 860px) {
+    .hero, .work, .playable { grid-template-columns: 1fr; }
+    .grid3 { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr 1fr; }
+    .phone { margin: 0 auto; width: min(300px, 100%); height: 600px; }
+    nav .links a:not(:last-child) { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a class="brand" href="#" data-name>Ege Turan</a>
+    <div class="links"><a href="#work">Work</a><a href="#playable">Playable ads</a><a href="#services">Services</a><a href="#contact">Contact</a></div>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <h1>HTML5 games &amp; <em>playable ads</em> that load instantly.</h1>
+      <p class="lead">I build lightweight, mobile-first games for web portals and interactive playable ads for app marketing. Small files, smooth 60&nbsp;fps, ready for every major ad network.</p>
+      <a class="btn primary" href="#playable">Try the playable ad</a>
+      <a class="btn ghost" href="#contact">Get a quote</a>
+    </div>
+    <img src="img/cover-landscape.png" alt="Comet Hopper key art: a comet slinging between planets past a black hole" width="1920" height="1080">
+  </header>
+
+  <section id="work">
+    <h2>Featured game</h2>
+    <p class="sub">Designed, built and shipped end to end.</p>
+    <div class="work">
+      <img src="img/cover-square.png" alt="Comet Hopper cover" width="800" height="800" loading="lazy">
+      <div>
+        <h3 style="font-size:26px;margin:0">Comet Hopper</h3>
+        <p class="sub" style="margin:8px 0 0">A one-tap arcade game: orbit a planet, tap to launch, sling through black holes and land on the next world. Daily missions, achievements, unlockable comets and five themed zones.</p>
+        <ul class="facts">
+          <li><b>0.4&nbsp;MB</b> initial load</li>
+          <li><b>One tap</b> controls</li>
+          <li>Phone · tablet · desktop</li>
+          <li>Portrait &amp; landscape</li>
+          <li>EN / TR</li>
+          <li>CrazyGames SDK: ads, saves, mute</li>
+          <li>Zero image files: all art is procedural</li>
+        </ul>
+        <a class="btn primary" href="play/comet-hopper/index.html" target="_blank" rel="noopener">Play Comet Hopper</a>
+        <a class="btn ghost" href="video/comet-hopper.mp4" target="_blank" rel="noopener">Watch trailer</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="playable">
+    <h2>Playable ad demo</h2>
+    <p class="sub">A 30-second interactive ad built from the same game. Tap to play it right here.</p>
+    <div class="playable">
+      <div class="phone">
+        <iframe id="pa" title="Comet Hopper playable ad" loading="lazy"></iframe>
+        <button class="start" id="paStart" style="background-image:url(img/cover-portrait.png)"><span>▶ Play the ad</span></button>
+      </div>
+      <div>
+        <ul class="specs">
+          <li><b>Single HTML file</b>, 1.5&nbsp;MB, no external requests</li>
+          <li><b>MRAID 2.0</b> (AppLovin, Unity, ironSource, Mintegral), <b>Meta</b> and <b>Google Ads</b> exits built in</li>
+          <li><b>Hook → tutorial → win → end card</b> in about 30 seconds</li>
+          <li>Tutorial hand, forgiving first jumps, retry on fail, tap-anywhere CTA</li>
+          <li>Portrait and landscape, any aspect ratio</li>
+          <li>Easy to re-skin: colours, copy, store link and difficulty are one-line changes for A/B variants</li>
+        </ul>
+        <a class="btn ghost" href="playable/comet-hopper.html" target="_blank" rel="noopener">Open full screen</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <h2>What I can build for you</h2>
+    <p class="sub">Fixed-price projects, fast turnaround.</p>
+    <div class="grid3">
+      <div class="card"><div class="icon">📱</div><h3>Playable ads</h3><p>Interactive ads for your mobile game or app, delivered in every network's format, with multiple variants for creative testing.</p></div>
+      <div class="card"><div class="icon">🎮</div><h3>HTML5 web games</h3><p>Casual games ready for CrazyGames, Poki and GameDistribution, with SDK integration, ads, saves and analytics hooks.</p></div>
+      <div class="card"><div class="icon">🏷️</div><h3>Branded mini-games</h3><p>Campaign games for brands and events: your logo, products and prize flow in a game people actually want to play.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How it works</h2>
+    <p class="sub">From brief to delivery in days, not weeks.</p>
+    <div class="steps">
+      <div class="card"><h3>Brief</h3><p>Your game or brand, target networks and the core mechanic to show.</p></div>
+      <div class="card"><h3>Prototype</h3><p>A playable first version you can try on your phone.</p></div>
+      <div class="card"><h3>Polish</h3><p>Feedback rounds on feel, art and end card.</p></div>
+      <div class="card"><h3>Deliver</h3><p>Network-ready files and variants, plus source code.</p></div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="contact">
+      <h2>Let's make something people want to tap</h2>
+      <p class="sub" style="margin-bottom:24px">Tell me about your game or campaign. I reply within one working day.</p>
+      <a class="btn primary" data-email href="#">Email me</a>
+    </div>
+  </section>
+
+  <footer>© <span id="yr"></span> <span data-name>Ege Turan</span> · All games and art on this page are original work.</footer>
+</div>
+
+<script>
+  // ======= CONFIG: fill in before publishing =======
+  // contactUrl is used when email is empty (keeps a personal address off the public page)
+  const CONFIG = { name: 'Ege Turan', email: '', contactUrl: 'https://egeturan.itch.io' };
+
+  document.querySelectorAll('[data-name]').forEach((el) => { el.textContent = CONFIG.name; });
+  document.querySelectorAll('[data-email]').forEach((el) => {
+    if (CONFIG.email) {
+      el.href = 'mailto:' + CONFIG.email + '?subject=' + encodeURIComponent('Project inquiry');
+    } else {
+      el.href = CONFIG.contactUrl; el.target = '_blank'; el.rel = 'noopener'; el.textContent = 'Contact me on itch.io';
+    }
+  });
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  // load the playable only on demand so the page itself stays light
+  document.getElementById('paStart').addEventListener('click', (e) => {
+    document.getElementById('pa').src = 'playable/comet-hopper.html';
+    e.currentTarget.remove();
+  });
+</script>
+</body>
+</html>
