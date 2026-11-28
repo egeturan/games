@@ -52,6 +52,10 @@
   .phone iframe { width: 100%; height: 100%; border: 0; border-radius: 30px; background: var(--bg); display: block; }
   .phone .start { position: absolute; inset: 14px; border-radius: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; background: #070b1ae6 center/cover; color: var(--text); font-weight: 700; cursor: pointer; border: 0; font-size: 18px; }
   .phone .start span { background: var(--green); color: #04140a; padding: 12px 22px; border-radius: 12px; }
+  .phones { display: flex; flex-wrap: wrap; gap: 32px; justify-content: center; }
+  .phones figure { margin: 0; text-align: center; }
+  .phones figcaption { margin-top: 12px; color: var(--muted); font-size: 14px; }
+  .phones figcaption a { color: var(--text); }
   .specs { list-style: none; padding: 0; margin: 0 0 22px; display: grid; gap: 10px; }
   .specs li { padding-left: 28px; position: relative; color: var(--muted); }
   .specs li::before { content: "✓"; position: absolute; left: 0; color: var(--green); font-weight: 800; }
@@ -80,15 +84,31 @@
     <div>
       <h1>HTML5 games &amp; <em>playable ads</em> that load instantly.</h1>
       <p class="lead">I build lightweight, mobile-first games for web portals and interactive playable ads for app marketing. Small files, smooth 60&nbsp;fps, ready for every major ad network.</p>
-      <a class="btn primary" href="#playable">Try the playable ad</a>
+      <a class="btn primary" href="#playable">Try the playable ads</a>
       <a class="btn ghost" href="#contact">Get a quote</a>
     </div>
     <img src="img/cover-landscape.png" alt="Comet Hopper key art: a comet slinging between planets past a black hole" width="1920" height="1080">
   </header>
 
   <section id="work">
-    <h2>Featured game</h2>
+    <h2>Games</h2>
     <p class="sub">Designed, built and shipped end to end.</p>
+    <div class="work" style="margin-bottom:48px">
+      <img src="img/stardust-square.png" alt="Stardust Forge cover: a black hole surrounded by planets and stars" width="800" height="800" loading="lazy">
+      <div>
+        <h3 style="font-size:26px;margin:0">Stardust Forge</h3>
+        <p class="sub" style="margin:8px 0 0">An idle merge game: drag equal bodies together to grow stardust into planets, stars and finally a black hole. Upgrades, a codex, Supernova prestige, offline earnings and opt-in rewarded boosts.</p>
+        <ul class="facts">
+          <li><b>13</b> merge tiers</li>
+          <li>Drag &amp; drop</li>
+          <li>Economy tuned with a simulation bot</li>
+          <li>Prestige + offline progress</li>
+          <li>EN / TR</li>
+          <li>Portal SDK: rewarded &amp; midgame ads, saves</li>
+        </ul>
+        <a class="btn primary" href="play/stardust-forge/index.html" target="_blank" rel="noopener">Play Stardust Forge</a>
+      </div>
+    </div>
     <div class="work">
       <img src="img/cover-square.png" alt="Comet Hopper cover" width="800" height="800" loading="lazy">
       <div>
@@ -110,23 +130,34 @@
   </section>
 
   <section id="playable">
-    <h2>Playable ad demo</h2>
-    <p class="sub">A 30-second interactive ad built from the same game. Tap to play it right here.</p>
-    <div class="playable">
-      <div class="phone">
-        <iframe id="pa" title="Comet Hopper playable ad" loading="lazy"></iframe>
-        <button class="start" id="paStart" style="background-image:url(img/cover-portrait.png)"><span>▶ Play the ad</span></button>
-      </div>
+    <h2>Playable ad demos</h2>
+    <p class="sub">30-second interactive ads built from the games above: a merge ad and a one-tap arcade ad. Tap to play them right here.</p>
+    <div class="phones">
+      <figure>
+        <div class="phone">
+          <iframe data-src="playable/stardust-forge.html" title="Stardust Forge playable ad" loading="lazy"></iframe>
+          <button class="start" style="background-image:url(img/stardust-portrait.png)"><span>▶ Play the merge ad</span></button>
+        </div>
+        <figcaption>Merge · Stardust Forge · <a href="playable/stardust-forge.html" target="_blank" rel="noopener">full screen</a></figcaption>
+      </figure>
+      <figure>
+        <div class="phone">
+          <iframe data-src="playable/comet-hopper.html" title="Comet Hopper playable ad" loading="lazy"></iframe>
+          <button class="start" style="background-image:url(img/cover-portrait.png)"><span>▶ Play the arcade ad</span></button>
+        </div>
+        <figcaption>One-tap arcade · Comet Hopper · <a href="playable/comet-hopper.html" target="_blank" rel="noopener">full screen</a></figcaption>
+      </figure>
+    </div>
+    <div class="playable" style="grid-template-columns:1fr;margin-top:32px">
       <div>
         <ul class="specs">
           <li><b>Single HTML file</b>, 1.5&nbsp;MB, no external requests</li>
           <li><b>MRAID 2.0</b> (AppLovin, Unity, ironSource, Mintegral), <b>Meta</b> and <b>Google Ads</b> exits built in</li>
           <li><b>Hook → tutorial → win → end card</b> in about 30 seconds</li>
-          <li>Tutorial hand, forgiving first jumps, retry on fail, tap-anywhere CTA</li>
+          <li>Tutorial hand, guided first moves, retry on fail, tap-anywhere CTA</li>
           <li>Portrait and landscape, any aspect ratio</li>
           <li>Easy to re-skin: colours, copy, store link and difficulty are one-line changes for A/B variants</li>
         </ul>
-        <a class="btn ghost" href="playable/comet-hopper.html" target="_blank" rel="noopener">Open full screen</a>
       </div>
     </div>
   </section>
@@ -178,10 +209,11 @@
   });
   document.getElementById('yr').textContent = new Date().getFullYear();
   // load the playable only on demand so the page itself stays light
-  document.getElementById('paStart').addEventListener('click', (e) => {
-    document.getElementById('pa').src = 'playable/comet-hopper.html';
-    e.currentTarget.remove();
-  });
+  document.querySelectorAll('.phone .start').forEach((btn) => btn.addEventListener('click', () => {
+    const frame = btn.parentElement.querySelector('iframe');
+    frame.src = frame.dataset.src;
+    btn.remove();
+  }));
 </script>
 </body>
 </html>
